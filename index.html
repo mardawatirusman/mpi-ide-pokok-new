@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPI Ide Pokok • Teks Lisan dan Multimodal</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Baloo+2:wght@600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<style>
+:root{--p:#fde4ee;--p2:#f7b8d0;--r:#d6457c;--b:#cfe5fa;--b2:#3f87d4;--t:#4a2038;--g:#1f9d6a}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;color:var(--t);background:linear-gradient(160deg,var(--p),#fff6fa 45%,var(--b));min-height:100dvh;line-height:1.55;overflow-wrap:anywhere}
+.v{display:none;min-height:100dvh;padding:14px;animation:f .35s}.v.on{display:block}.v.cen.on{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+@keyframes f{from{opacity:0}}
+.pan{max-width:860px;margin:auto;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border:1px solid #fff;border-radius:24px;padding:clamp(14px,3vw,28px);box-shadow:0 10px 40px #d6457c22}
+.c{text-align:center}
+h1,h2,h3{font-family:"Baloo 2",system-ui,sans-serif;margin:.3em 0;color:var(--r)}h1{font-size:clamp(1.6rem,5vw,2.6rem);line-height:1.15}
+.btn,.btn2{font:800 1rem Nunito,sans-serif;border:0;border-radius:999px;padding:12px 22px;cursor:pointer;background:var(--r);color:#fff;box-shadow:0 4px 0 #a32d5a}
+.btn2{background:var(--b2);box-shadow:0 4px 0 #2a66a8}.btn:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+.ar{font-family:Amiri,"Traditional Arabic",serif;font-size:clamp(1.5rem,5vw,2.1rem);direction:rtl;text-align:center;line-height:2;color:#7a1f4a}
+.ay{background:var(--b);border-radius:16px;padding:12px;margin:10px 0;text-align:center}.ay p{margin:.2em 0}
+.box{background:#fff;border-left:5px solid var(--b2);border-radius:12px;padding:10px 14px;margin:10px 0}.kbc{border-color:var(--r);background:#fff0f6}
+.act{background:#fff;border:2px dashed var(--p2);border-radius:16px;padding:12px;margin-top:12px}
+.op,.chip{display:block;width:100%;text-align:left;font:700 1rem Nunito,sans-serif;background:#fff;border:2px solid var(--b);border-radius:14px;padding:10px 14px;margin:7px 0;cursor:pointer;color:var(--t)}
+.op.sel,.chip.sel{border-color:var(--b2);background:#e7f2fd}.op.ok{border-color:var(--g);background:#dcf7ea}.op.no{border-color:#d33;background:#fde2e2}
+.chip{display:inline-block;width:auto;margin:4px}
+.bk{border:2px dashed var(--b2);border-radius:14px;padding:8px;margin:8px 0;min-height:56px;background:#f5faff}
+.stim{background:#fff;border-radius:14px;padding:12px 14px;border-left:5px solid var(--r)}
+.bdg{display:inline-block;background:var(--b2);color:#fff;border-radius:999px;padding:2px 12px;font-weight:800;font-size:.85rem}
+.fb{margin-top:10px;font-weight:800}.fb.g{color:var(--g)}.fb.r{color:#c0392b}.fb.w{color:#b9770e}
+.top{font-weight:800;color:var(--b2);margin-bottom:8px}.top i{display:block;height:6px;background:var(--r);border-radius:6px;margin-top:4px;transition:width .4s}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:14px}
+.mc{border-radius:20px;padding:18px;text-align:center;background:#fff;border:3px solid var(--p2);cursor:pointer;font-weight:800}.mc.lk{opacity:.6;border-color:#ccc;filter:grayscale(.6)}.mc big{font-size:2.6rem;display:block}
+.mo{display:none;position:fixed;inset:0;background:#4a203866;backdrop-filter:blur(6px);z-index:9;align-items:center;justify-content:center;padding:14px}.mo.on{display:flex}
+.card{background:#fff;border-radius:24px;max-width:520px;width:100%;max-height:90dvh;overflow:auto;padding:20px;text-align:center;animation:pop .3s}
+@keyframes pop{from{transform:scale(.85);opacity:0}}
+.av{position:relative;width:110px;height:110px;border-radius:50%;margin:auto;background:var(--p2);display:flex;align-items:center;justify-content:center;font:800 2.6rem "Baloo 2";color:#fff;border:4px solid #fff;box-shadow:0 4px 14px #0002;overflow:hidden}.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+input{font:1rem Nunito,sans-serif;padding:12px;border:2px solid var(--p2);border-radius:12px;width:100%;margin:4px 0}.err{color:#c0392b;font-size:.9rem;min-height:1.2em;text-align:left}
+table{width:100%;border-collapse:collapse}td,th{border:1px solid var(--p2);padding:6px 8px;text-align:left;font-size:.92rem}
+.wv{animation:wv 1.6s infinite}.wv:nth-child(2){animation-delay:.3s}.wv:nth-child(3){animation-delay:.6s}@keyframes wv{50%{opacity:1}0%,100%{opacity:.1}}
+.st{transform-box:fill-box;transform-origin:center;animation:pl 2s infinite}@keyframes pl{50%{transform:scale(1.2)}}
+body{padding-bottom:38px}.rd{padding:6px 14px;font-size:.9rem;margin:4px 0}.cg{display:grid;gap:2px;grid-auto-rows:36px;margin:8px 0}.cc{position:relative;width:36px;height:36px}.cc input{width:100%;height:100%;padding:0;margin:0;text-align:center;font:800 1.1rem Nunito,sans-serif;text-transform:uppercase;border:2px solid var(--b2);border-radius:6px;background:#fff}.cc sup{position:absolute;top:0;left:2px;font-size:.6rem;color:var(--r);z-index:1;pointer-events:none}
+#mq{position:fixed;left:0;right:0;bottom:0;background:var(--r);color:#fff;overflow:hidden;white-space:nowrap;z-index:5;font-weight:700;padding:7px 0;font-size:.95rem}
+.mqi{display:inline-block;padding-left:100%;animation:mq 55s linear infinite}@keyframes mq{to{transform:translateX(-100%)}}
+#mq:hover .mqi{animation-play-state:paused}
+#sb{position:fixed;top:8px;right:8px;z-index:8;display:flex;gap:6px}#sb button{width:42px;height:42px;border-radius:50%;border:2px solid #fff;background:var(--b2);color:#fff;font-size:1.15rem;cursor:pointer;box-shadow:0 2px 8px #0003}#sb button.off{background:#999}
+@media (prefers-reduced-motion:reduce){#mq{white-space:normal;text-align:center}.mqi{padding-left:10px}}
+.sc{position:relative;height:130px;border-radius:18px;overflow:hidden;background:linear-gradient(#cfe5fa 0 66%,#f7d8e6 66%);margin:8px 0}.sc span{position:absolute;line-height:1;transform-origin:50% 90%}.fl{animation:fl 2.6s ease-in-out infinite}.sw{animation:sw 3s ease-in-out infinite}.bn{animation:bn 1.6s ease-in-out infinite}.pu{animation:pu 1.8s ease-in-out infinite}.sp{animation:sp 14s linear infinite}.fy{animation:fy 8s linear infinite}.wk{animation:wk 3.5s ease-in-out infinite}.wg{animation:wg 1.4s ease-in-out infinite}@keyframes fl{50%{transform:translateY(-10px)}}@keyframes sw{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}@keyframes bn{0%,100%{transform:translateY(0)}40%{transform:translateY(-14px)}}@keyframes pu{50%{transform:scale(1.25)}}@keyframes sp{to{transform:rotate(360deg)}}@keyframes fy{0%{left:-10%}100%{left:105%}}@keyframes wk{0%,100%{transform:translateX(-18px)}50%{transform:translateX(18px)}}@keyframes wg{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+@media print{body{background:#fff}.v{display:none!important}#laporan{display:block!important;padding:0}.np{display:none!important}.pan{box-shadow:none;backdrop-filter:none;background:#fff}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<div id="mo" class="mo"></div>
+<div id="sb" class="np"><button id="bmu" onclick="tgM()" title="Musik latar" aria-label="Musik latar">🎵</button><button id="bsf" onclick="tgS()" title="Efek suara" aria-label="Efek suara">🔊</button><button onclick="SP&&SP.cancel()" title="Hentikan bacaan" aria-label="Hentikan bacaan">⏹</button></div>
+<div id="mq" class="np" aria-label="Informasi media"><div class="mqi">📚 Mata Pelajaran: Bahasa Inggris • Kelas IV / Fase B • Madrasah Ibtidaiyah &nbsp;&nbsp;✦&nbsp;&nbsp; Topik: Ide Pokok • Teks Lisan dan Multimodal &nbsp;&nbsp;✦&nbsp;&nbsp; 👩‍🏫 Pengembang: Mardawati, S.S • MIS Al-Khairaat Paguat &nbsp;&nbsp;✦&nbsp;&nbsp; 🎯 Tujuan Pembelajaran: Murid dapat menganalisis hasil dari ide pokok yang terdapat di teks lisan dengan memiliki kesadaran dalam berkomunikasi secara efektif dan sopan, sebagai wujud cinta terhadap ilmu. &nbsp;&nbsp;✦&nbsp;&nbsp;</div></div>
+<section id="splash" class="v cen on"><svg viewBox="0 0 100 100" width="110"><circle cx="50" cy="50" r="44" fill="#fde4ee" stroke="#d6457c" stroke-width="4"/><text class="st" x="50" y="64" font-size="42" text-anchor="middle">⭐</text></svg><h1>Ide Pokok • Teks Lisan dan Multimodal</h1><p>Memuat media belajar…</p></section>
+<section id="cover" class="v cen">
+<h1>Ide Pokok • Teks Lisan dan Multimodal</h1><div class="row"><span class="bdg">Bahasa Inggris</span><span class="bdg">Kelas IV / Fase B • MI</span></div>
+<svg viewBox="0 0 320 170" width="min(86vw,380px)" aria-label="Ilustrasi ide pokok"><circle cx="50" cy="90" r="28" fill="#f7b8d0"/><circle cx="42" cy="84" r="3" fill="#4a2038"/><path d="M40 100q10 8 20 0" stroke="#4a2038" fill="none" stroke-width="3"/><g fill="none" stroke="#3f87d4" stroke-width="4" stroke-linecap="round"><path class="wv" d="M90 75q12 15 0 30"/><path class="wv" d="M104 65q18 25 0 50"/><path class="wv" d="M118 55q24 35 0 70"/></g><path d="M165 105l-12 28 34-24z" fill="#fff" stroke="#d6457c" stroke-width="4"/><rect x="150" y="25" width="150" height="85" rx="22" fill="#fff" stroke="#d6457c" stroke-width="4"/><text class="st" x="225" y="72" font-size="34" text-anchor="middle">⭐</text><text x="225" y="98" font-size="15" font-weight="800" text-anchor="middle" fill="#d6457c">Main Idea</text><rect x="205" y="132" width="95" height="28" rx="8" fill="#cfe5fa"/><text x="252" y="152" font-size="16" text-anchor="middle">🖼️ 🔊 📝</text></svg>
+<div class="row"><button class="btn2" onclick="mo(DEV,'Kembali ke Cover')">Informasi Pengembang</button><button class="btn2" onclick="mo(TUJ,'Kembali ke Cover')">Tujuan Pembelajaran</button><button class="btn" onclick="go('form')">MULAI</button></div></section>
+<section id="form" class="v"><div class="pan c"><h2>Siapa namamu? 🌸</h2><p>Isi dulu ya sebelum mulai belajar.</p><input id="nm" placeholder="Nama lengkap siswa" autocomplete="off"><div class="err" id="e1"></div><input id="kl" placeholder="Kelas (contoh: IV A)" autocomplete="off"><div class="err" id="e2"></div><div class="nav"><button class="btn2" onclick="go('cover')">Kembali</button><button class="btn" onclick="fm()">Lanjut</button></div></div></section>
+<section id="intro" class="v"></section><section id="menu" class="v"></section><section id="belajar" class="v"></section><section id="bermain" class="v"></section><section id="berlatih" class="v"></section><section id="laporan" class="v"></section>
+<script>
+// ==========================================
+// KONFIGURASI GOOGLE APPS SCRIPT (GAS)
+// ==========================================
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzhG88HoYMHEMGmhDET2UbylymMio7QwU_w2omh_TznIm8bQm7_g-9IQOFnfMFDQPX-3Q/exec";
+
+const AY=[{ar:"اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ",r:"QS. Al-‘Alaq: 1",t:"“Bacalah dengan (menyebut) nama Tuhanmu yang menciptakan,”",k:"Belajar dimulai dari membaca dan menyimak dengan niat baik."},
+{ar:"وَقُولُوا لِلنَّاسِ حُسْنًا",r:"QS. Al-Baqarah: 83",t:"“…dan bertutur katalah yang baik kepada manusia…”",k:"Menyampaikan ide pokok dengan kata-kata yang santun."},
+{ar:"خَلَقَ الْإِنسَانَ ۝ عَلَّمَهُ الْبَيَانَ",r:"QS. Ar-Rahman: 3–4",t:"“Dia menciptakan manusia, mengajarnya pandai berbicara.”",k:"Kemampuan berbicara dan menyimak adalah anugerah Allah."},
+{ar:"يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ",r:"QS. Al-Mujadilah: 11",t:"“…Allah niscaya akan mengangkat (derajat) orang-orang yang beriman di antaramu dan orang-orang yang diberi ilmu beberapa derajat…”",k:"Cinta ilmu mengangkat derajat dan menumbuhkan adab."},
+{ar:"رَبِّ زِدْنِي عِلْمًا",r:"QS. Taha: 114",t:"“…Ya Tuhanku, tambahkanlah ilmu kepadaku.”",k:"Doa pembuka belajar, dibarengi shalawat kepada Rasulullah ﷺ."}];
+const ay=a=>`<div class="ay"><div class="ar">${a.ar}</div><b>${a.r}</b><p>${a.t}</p><small>Korelasi: ${a.k}</small></div>`;
+const DEV=`<div class="av">M<img src="https://iili.io/CSAHRQ1.png" alt="Foto Mardawati" onerror="this.remove()"></div><h3>Mardawati, S.S</h3><p>MIS Al-Khairaat Paguat<br>✉️ guru.madrasah@kemenag.go.id</p>`;
+const TUJ=`<h3>🎯 Tujuan Pembelajaran</h3><p>Murid dapat menganalisis hasil dari ide pokok yang terdapat di teks lisan dengan memiliki kesadaran dalam berkomunikasi secara efektif dan sopan, sebagai wujud cinta terhadap ilmu.</p>${ay(AY[3])}<div class="box kbc">💗 Cintai ilmu, hormati teman, sayangi alam ciptaan Allah, dan cintai tanah air Indonesia. Mulailah dengan doa dan shalawat kepada Rasulullah ﷺ.</div>`;
+const MT=[
+{t:"Apa itu Ide Pokok?",b:"Ide pokok (main idea) adalah hal terpenting yang dibicarakan dalam sebuah teks. Kalimat lain hanya menjelaskan atau mendukungnya. Tanyakan pada dirimu: 'What is the speaker mostly talking about?'",l:"Bu Guru bercerita tentang hutan di sekitar Paguat, Pohuwato: kayu, air bersih, dan udara segar. Ide pokoknya: hutan penting bagi kita.",c:"Mencintai ilmu berarti menyimak sungguh-sungguh; mencintai alam berarti menjaga hutan sebagai ciptaan Allah.",a:0,q:"Bu Guru: 'The forest gives us clean air and water. We must protect it.' What is the main idea?",o:["The forest has water.","We must protect the forest.","Air is clean."],k:1},
+{t:"Teks Lisan",b:"Teks lisan adalah pesan yang disampaikan dengan suara: pengumuman, percakapan, cerita, atau pidato. Saat menyimak, dengarkan kata kunci yang diulang dan perhatikan nada suara pembicara.",l:"Pengumuman kepala madrasah di MIS Al-Khairaat Paguat setiap Senin pagi adalah contoh teks lisan.",c:"Adab menyimak: tidak memotong pembicaraan teman dan memandang pembicara dengan hormat.",a:2,q:"Which one is a spoken text?",o:["A morning announcement","A printed poster","A silent photo"],k:0},
+{t:"Teks Multimodal",b:"Teks multimodal memadukan beberapa cara menyampaikan makna: kata, gambar, suara, warna, dan gerak tubuh. Semua mode bekerja sama menyampaikan satu ide pokok.",l:"Poster 'Jagung Pohuwato' berisi gambar ladang jagung, tulisan, dan suara pembawa acara, semuanya membahas panen jagung.",c:"Gambar dan kata yang baik menyebarkan kebaikan, misalnya poster menjaga sungai dan Teluk Tomini tetap bersih.",a:3,q:"Which are modes in a multimodal text?",o:["Words and pictures","Only silence","Only one color"],k:0},
+{t:"Kata Kunci dan Detail Pendukung",b:"Kata kunci adalah kata penting yang sering muncul. Detail pendukung berupa fakta, angka, atau contoh yang menjelaskan ide pokok. Contoh: 'Mangroves protect the coast. Their roots stop waves.' Kalimat kedua adalah detail.",l:"Di Cagar Alam Panua, Pohuwato, akar mangrove menahan ombak dan menjadi rumah ikan serta kepiting.",c:"Menyayangi makhluk Allah: ikan, kepiting, dan pohon pun berhak hidup aman.",a:3,q:"'Mangroves protect the coast. Their roots stop waves.' Which is a detail?",o:["Mangroves protect the coast.","Their roots stop waves.","Both are titles."],k:1},
+{t:"Strategi: Dengar – Catat – Katakan",b:"Langkah 1: dengarkan dengan tenang. Langkah 2: catat kata kunci dan angka. Langkah 3: katakan ide pokok dengan kalimatmu sendiri: 'I think the main idea is …'.",l:"Saat nelayan pesisir Pohuwato berkabar tentang 40 kg ikan, catat angka 40 dan kata 'fish'.",c:"Mendengar dengan sabar adalah wujud adab dan cinta kepada ilmu.",a:0,q:"What is Step 2?",o:["Write key words","Run away","Sleep"],k:0},
+{t:"Menganalisis Ide Pokok",b:"Periksa: apakah semua kalimat membahas hal yang sama? Jika ya, itulah ide pokoknya. Ide pokok bukan angka atau contoh kecil, melainkan gagasan besar yang mencakup semuanya.",l:"Tiga murid Paguat berkata: 'Membaca itu seru', 'Buku adalah teman', 'Aku suka perpustakaan'. Semuanya tentang membaca.",c:"Menghargai pendapat teman: dengarkan semua, lalu simpulkan bersama dengan santun.",a:1,q:"'Books are friends. Reading is fun. I love the library.' Main idea?",o:["Reading is enjoyable.","The library is blue.","Friends are tall."],k:0},
+{t:"Berkomunikasi Efektif dan Sopan",b:"Gunakan kata santun: 'Excuse me', 'Could you repeat that, please?', 'Thank you'. Sampaikan idemu dengan 'I think the main idea is …'. Awali belajar dengan doa dan shalawat.",l:"Di Paguat, anak-anak terbiasa mengucap salam kepada guru dan tetangga, budaya santun yang kita jaga.",c:"Doa belajar: 'Rabbi zidni ilma'. Shalawat: 'Allahumma shalli ala Muhammad', wujud cinta kepada Allah dan Rasul-Nya.",a:4,q:"Which sentence is polite?",o:["Say it again!","Could you repeat that, please?","I don't care."],k:1}];
+const BM=[
+{k:"pic",p:"🌳",w:"TREE",x:"BKS",s:"Pak Udin says: 'Plant one of these near the river in Paguat. It gives us shade and fresh air, and birds make a home in it.'",q:"Tebak gambar: apa kata bahasa Inggrisnya?",e:"TREE = pohon. Menanam pohon adalah wujud sayang kepada ciptaan Allah."},
+{k:"pic",p:"🐟",w:"FISH",x:"ACL",s:"Fishermen from Teluk Tomini bring home 40 kg of this swimming animal every morning. Fresh ones are sold at the market.",q:"Tebak gambar: apa kata bahasa Inggrisnya?",e:"FISH = ikan. Kita menjaga laut agar ikan tetap hidup."},
+{k:"pic",p:"🌽",w:"CORN",x:"PEL",s:"Mrs. Rina sells 12 sacks of this yellow food at Paguat market every Sunday. Pohuwato is proud of it.",q:"Tebak gambar: apa kata bahasa Inggrisnya?",e:"CORN = jagung, hasil bumi kebanggaan Pohuwato."},
+{k:"cw",s:"Announcement at MIS Al-Khairaat: 'Our English lesson today is about messages. Listen to the main message, then go home in peace. On the way, plant a tree near your home.'",q:"Isilah teka-teki silang dengan kata dari bank kata.",W:[{w:"MESSAGE",r:3,c:0,d:"A",t:"Information in an announcement or spoken text"},{w:"HOME",r:1,c:0,d:"D",t:"The place where your family lives"},{w:"LESSON",r:1,c:2,d:"D",t:"A class at school"},{w:"PEACE",r:1,c:4,d:"D",t:"Calm and safe, with no fighting"},{w:"TREE",r:1,c:6,d:"D",t:"Mangroves are a kind of this plant"}],e:"Jawaban: MESSAGE, HOME, LESSON, PEACE, TREE."},
+{k:"pic",p:"📖",w:"BOOK",x:"SMT",s:"In the MIS Al-Khairaat library, 25 children borrowed this on Wednesday. Reading it makes us smart.",q:"Tebak gambar: apa kata bahasa Inggrisnya?",e:"BOOK = buku. Cinta ilmu dimulai dari membaca."},
+{k:"pic",p:"🕌",w:"MOSQUE",x:"TRB",s:"On Friday, students come 15 minutes early to this place for prayer. They bring a mat and speak softly.",q:"Tebak gambar: apa kata bahasa Inggrisnya?",e:"MOSQUE = masjid. Berbicaralah dengan lembut dan sopan."},
+{k:"cw",s:"Bu Guru's talk: 'Today's theme is kind speaking. Listen to your friend, say a kind word, and ask the name of a new friend. A kind word is charity.'",q:"Isilah teka-teki silang dengan kata dari bank kata.",W:[{w:"SPEAKING",r:3,c:0,d:"A",t:"Talking with your voice"},{w:"LISTEN",r:1,c:0,d:"D",t:"Use your ears to hear carefully"},{w:"THEME",r:1,c:2,d:"D",t:"The main subject of a talk"},{w:"KIND",r:3,c:4,d:"D",t:"Good and gentle to friends"},{w:"NAME",r:3,c:6,d:"D",t:"What people call you"}],e:"Jawaban: SPEAKING, LISTEN, THEME, KIND, NAME."},
+{k:"pic",p:"👂",w:"LISTEN",x:"AOP",s:"Bu Guru says: 'Before you speak, do this first. Use your ears, then find the key words.'",q:"Tebak gambar: apa kata bahasa Inggrisnya?",e:"LISTEN = menyimak, langkah pertama menemukan ide pokok."},
+{k:"pic",p:"💡",w:"IDEA",x:"MRK",s:"The most important point of a talk is called the main… Write it down after you hear the key words.",q:"Tebak gambar: apa kata bahasa Inggrisnya?",e:"IDEA = gagasan. Main idea = ide pokok."},
+{k:"cw",s:"Pak Ahmad lives in Paguat. He has a farm, and he wants to plant mangrove trees to protect the coast. Many fish will live there.",q:"Isilah teka-teki silang dengan kata dari bank kata.",W:[{w:"PAGUAT",r:3,c:0,d:"A",t:"Our sub-district in Pohuwato"},{w:"PLANT",r:3,c:0,d:"D",t:"To put a seed or small tree in the soil"},{w:"MANGROVE",r:0,c:2,d:"D",t:"Trees that grow on the coast and protect it"},{w:"FARM",r:2,c:4,d:"D",t:"A place where people grow corn and rice"}],e:"Jawaban: PAGUAT, PLANT, MANGROVE, FARM."}];
+const BR=[
+{l:1,w:8,k:"mc",s:"Bu Mardiyah says: 'Our village Paguat has a big forest. The forest gives us clean air. We must keep it safe.'",q:"What is the main idea? (Apa ide pokoknya?)",o:["We must keep the forest safe.","Paguat is a village.","Air is clean."],a:0,e:"Ide pokok: kita harus menjaga hutan."},
+{l:1,w:8,k:"mc",s:"Attention, please! Friday prayer starts at 11.30. Please come early and bring a mat.",q:"What is the announcement about? (Pengumuman ini tentang apa?)",o:["Friday prayer","A football game","A school lunch"],a:0,e:"Semua kalimat membahas shalat Jumat."},
+{l:1,w:8,k:"mc",s:"Fish from Teluk Tomini are fresh. Fishermen go out at 5 a.m. They bring home 40 kg of fish.",q:"Which sentence has a number? (Kalimat mana yang memuat angka?)",o:["Fish from Teluk Tomini are fresh.","They bring home 40 kg of fish.","Fishermen go out early."],a:1,e:"Angka 40 kg adalah detail pendukung."},
+{l:2,w:10,k:"mc",s:"Class IV collects plastic near the river. On Monday they get 14 kg. On Tuesday they get 16 kg. The teacher says: 'Keep the river clean.'",q:"How many kg in two days? (Berapa kg dalam dua hari?)",o:["20 kg","30 kg","40 kg"],a:1,e:"14 + 16 = 30 kg."},
+{l:2,w:10,k:"mc",s:"A poster shows a hand with a seed. The words say, 'Plant a tree.' A voice says, 'Plant a tree for our river.'",q:"What do the picture, words, and voice show? (Gambar, tulisan, dan suara menunjukkan apa?)",o:["Planting a tree","Playing a game","Eating fish"],a:0,e:"Gambar, tulisan, dan suara sama-sama tentang menanam pohon."},
+{l:2,w:10,k:"multi",s:"Raka does not hear the teacher. He wants to ask politely.",q:"Choose TWO polite sentences. (Pilih DUA kalimat sopan.)",o:["Excuse me, please repeat.","Say it again!","Thank you, teacher.","I don't care."],a:[0,2],e:"Meminta dengan santun dan berterima kasih adalah sopan."},
+{l:2,w:10,k:"mc",s:"Group 1 says, 'Reading is fun.' Group 2 says, 'Books are my friends.' Group 3 says, 'I love the library.'",q:"What do all groups talk about? (Semua kelompok membicarakan apa?)",o:["Reading","Fishing","Football"],a:0,e:"Ketiga kelompok membahas membaca."},
+{l:3,w:12,k:"mc",s:"The principal says: 'Please bring 5 seedlings. We plant trees to protect the river.' Adi says the main idea is '5 seedlings'. Sinta says it is 'protect the river'.",q:"Who is right? (Siapa yang benar?)",o:["Sinta, because it is the big point.","Adi, because 5 is a number.","Nobody is right."],a:0,e:"Angka adalah detail. Ide pokoknya: menanam pohon untuk menjaga sungai."},
+{l:3,w:12,k:"multi",s:"A farmer in Pohuwato shares water with his neighbor. Both fields give 20 sacks of corn each.",q:"Choose TWO true sentences. (Pilih DUA kalimat yang benar.)",o:["The farmer shares water.","The farmer is selfish.","Together they have 40 sacks.","There is no corn."],a:[0,2],e:"Petani berbagi air, dan 20 + 20 = 40 karung."},
+{l:3,w:12,k:"mc",s:"Bu Guru says: 'First, listen. Then find the key words. Then say the main idea politely.'",q:"Which is the best order? (Urutan mana yang terbaik?)",o:["Listen, find key words, say the main idea","Say the main idea, listen, find key words","Find key words, say the main idea, listen"],a:0,e:"Urutannya: menyimak, mencari kata kunci, lalu menyampaikan ide pokok dengan sopan."}];
+const sc=a=>`<div class="sc" aria-hidden="true">${a.map(([e,l,t,c,z])=>`<span class="${c}" style="left:${l}%;top:${t}%;font-size:${z}px">${e}</span>`).join("")}</div>`;
+const IL=[
+[["☀️",82,4,"sp",34],["🌳",6,40,"sw",52],["🌲",22,44,"sw",44],["🌳",70,40,"sw",52],["🐦",0,10,"fy",28],["💡",46,18,"pu",36],["🦋",36,46,"fl",24]],
+[["🧑‍🏫",12,42,"bn",50],["🔊",34,40,"pu",34],["💬",50,10,"fl",40],["👧",70,44,"bn",44],["👂",86,14,"wg",28]],
+[["🖼️",10,26,"fl",46],["🔊",38,42,"pu",36],["📝",58,26,"wg",44],["🌽",80,42,"bn",40],["🎵",30,6,"fl",24]],
+[["🌿",6,48,"sw",40],["🌿",24,50,"sw",40],["🦀",44,56,"wk",30],["🐟",0,16,"fy",30],["🔑",70,16,"pu",38],["🌊",82,50,"fl",40]],
+[["👂",10,32,"pu",42],["➡️",30,42,"fl",24],["✍️",42,32,"wg",42],["➡️",62,42,"fl",24],["🗣️",74,32,"bn",42]],
+[["📚",10,42,"bn",44],["🔍",40,32,"wk",44],["⭐",72,20,"pu",38],["💭",86,6,"fl",30]],
+[["🤝",14,38,"bn",46],["🙏",42,36,"fl",42],["💗",64,12,"pu",36],["🕌",80,36,"sw",46],["🌸",4,12,"fl",22]]],
+PGI=[[["📖",20,36,"fl",46],["👀",50,36,"pu",46],["👂",78,36,"wg",40]],[["👆",25,32,"bn",46],["⌨️",55,38,"fl",40],["🔤",80,36,"pu",36]],[["🔒",20,36,"wg",42],["➡️",45,42,"fl",26],["🔓",70,36,"bn",44]]];
+const BRI=[
+[["☀️",84,4,"sp",32],["🌳",6,40,"sw",52],["🌲",24,44,"sw",44],["🌳",68,40,"sw",52],["🐦",0,10,"fy",28],["🍃",46,20,"fl",26]],
+[["🕌",38,28,"sw",56],["⏰",10,12,"pu",34],["👦",14,50,"bn",36],["👧",78,50,"bn",36],["🌙",86,6,"fl",28]],
+[["☀️",84,4,"sp",32],["🚣",30,42,"wk",46],["🐟",0,18,"fy",30],["🌊",8,56,"fl",38],["🌊",70,56,"fl",38],["🎣",56,20,"wg",32]],
+[["🏞️",8,34,"fl",52],["🧴",44,52,"wk",30],["♻️",70,12,"sp",34],["🗑️",84,48,"wg",38],["🧒",24,48,"bn",38]],
+[["🖼️",12,24,"fl",54],["🌱",46,46,"pu",38],["🌳",62,36,"sw",50],["🔊",84,14,"pu",32]],
+[["🧒",10,44,"bn",42],["🙋",36,38,"wg",42],["🙏",62,38,"fl",40],["💬",78,10,"fl",34]],
+[["📚",10,40,"bn",44],["👧",38,46,"bn",40],["👦",58,46,"bn",40],["🏫",80,32,"sw",46],["💡",50,6,"pu",30]],
+[["🧑‍🏫",8,42,"bn",46],["🌱",34,52,"pu",32],["🌳",54,38,"sw",50],["🌊",78,52,"fl",40],["☀️",84,4,"sp",30]],
+[["🧑‍🌾",12,42,"bn",48],["💧",40,14,"fl",32],["🌽",58,46,"sw",38],["🌽",76,46,"sw",38],["☀️",86,4,"sp",30]],
+[["👂",10,34,"pu",42],["➡️",30,42,"fl",24],["🔑",42,32,"wg",42],["➡️",62,42,"fl",24],["🗣️",74,32,"bn",42]]];
+const PG=[["👀 Baca dan Dengar","Baca stimulus dengan teliti, lalu jawab pertanyaannya."],["👆 Ketuk dan Seret","Pilih jawaban dengan mengetuk. Pada Tebak Gambar, ketuk huruf untuk menyusun kata. Pada Teka-Teki Silang, ketik huruf di dalam kotak."],["🔓 Bertahap","Selesaikan Belajar, lalu Bermain, lalu Berlatih. Menu 🔒 terbuka setelah tahap sebelumnya selesai."]];
+const LV={1:"Dasar",2:"Sedang",3:"HOTS"},TP={pic:"Tebak Gambar",cw:"Teka-Teki Silang",match:"Menjodohkan",order:"Mengurutkan",drop:"Drag & Drop",mc:"Pilihan Ganda",multi:"Pilihan Ganda Kompleks"};
+const E=i=>document.getElementById(i),S={n:"",k:"",d:[],bs:0,bt:[],rs:[],ul:0};
+function go(id){const was=document.querySelector(".v.on");document.querySelectorAll(".v").forEach(v=>v.classList.toggle("on",v.id===id));scrollTo(0,0);if(SP)SP.cancel();if(was&&was.id!==id)sfx("move")}
+function mo(h,l){const m=E("mo");m.innerHTML=`<div class="card">${h}<p><button class="btn" onclick="cm()">${l||"Tutup"}</button></p></div>`;m.classList.add("on")}
+function cm(){E("mo").classList.remove("on")}
+function fb(m,c){E("fb").className="fb "+c;E("fb").textContent=m;sfx(c=="g"?"ok":c=="r"?"no":"w")}
+let AC,snd=true,mus=true,bgT,bi=0;
+function ac(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(AC.state=="suspended")AC.resume();return AC}
+function tn(f,t,d,v,ty){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain(),s=a.currentTime+(t||0);o.type=ty||"sine";o.frequency.value=f;g.gain.setValueAtTime(.0001,s);g.gain.linearRampToValueAtTime(v,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g);g.connect(a.destination);o.start(s);o.stop(s+d+.05)}
+function sfx(k){if(!snd)return;const m={click:()=>tn(660,0,.08,.12),move:()=>{tn(440,0,.1,.1);tn(660,.08,.14,.1)},ok:()=>[523,659,784,1047].forEach((f,i)=>tn(f,i*.09,.22,.15,"triangle")),no:()=>{tn(220,0,.2,.14,"sawtooth");tn(165,.16,.28,.14,"sawtooth")},w:()=>tn(330,0,.15,.1)};m[k]&&m[k]()}
+function bgm(){clearInterval(bgT);if(!mus)return;const N=[392,440,523,587,659,784],P=[0,2,4,2,1,3,5,3,4,2,0,1];const st=()=>{if(!AC||AC.state!="running"||(SP&&SP.speaking))return;const f=N[P[bi%12]];tn(f,0,.9,.035);if(bi%4==0)tn(f/2,0,1.8,.03,"triangle");bi++};st();bgT=setInterval(st,650)}
+function tgM(){mus=!mus;E("bmu").classList.toggle("off",!mus);if(mus){ac();bgm()}else clearInterval(bgT)}
+function tgS(){snd=!snd;E("bsf").classList.toggle("off",!snd);E("bsf").textContent=snd?"🔊":"🔇"}
+document.addEventListener("click",e=>{ac();if(!bgT&&mus)bgm();if(e.target.closest("button,.mc,.op,.chip")&&!e.target.closest("#sb"))sfx("click")});
+document.addEventListener("visibilitychange",()=>{if(AC)document.hidden?AC.suspend():(mus||snd)&&AC.resume()});
+const SP=window.speechSynthesis,cl=t=>String(t).replace(/<[^>]*>/g," ").replace(/ﷺ/g," sallallahu alaihi wasallam ").replace(/[•✦…]/g,","),
+lg=t=>/\b(the|is|are|we|you|and|to|of|please|excuse|thank|main|idea|what|which|who|how|it|they|my|our|your|his|her|in|on|for|can|do|not|fish)\b/i.test(t)?"en-US":"id-ID",
+mx=t=>t.split(/'([^']*)'/).map((s,i)=>[s,i%2?lg(s):"id-ID"]),
+hasAr=()=>SP.getVoices().some(v=>/^ar/i.test(v.lang)),
+ayP=a=>[...(hasAr()?[[a.ar,"ar-SA"]]:[]),[a.r.replace("QS.","Surat"),"id-ID"],[a.t,"id-ID"]];
+function say(p){if(!SP)return mo("<p>Browser ini belum mendukung fitur bacaan suara.</p>");SP.cancel();p.forEach(([t,l])=>{const x=cl(t).trim();if(!x)return;const u=new SpeechSynthesisUtterance(x);u.lang=l;u.rate=.88;SP.speak(u)})}
+function rdM(){const m=MT[S.bi];say([[m.t,"id-ID"],...mx(m.b),["Konteks Paguat, Pohuwato.","id-ID"],...mx(m.l),["Kurikulum Berbasis Cinta.","id-ID"],...mx(m.c),...ayP(AY[m.a])])}
+function rdQ(){const m=MT[S.bi];say([["Tantangan.","id-ID"],[m.q,"en-US"],...m.o.map((o,i)=>["ABC"[i]+". "+o,"en-US"])])}
+function rdS(q){const it=q.k=="order"?[...q.I].reverse():q.I;say([["Bacaan.","id-ID"],[q.s,"en-US"],["Pertanyaan.","id-ID"],[q.q,lg(q.q)],...(q.o||[]).map((o,i)=>["ABCD"[i]+". "+o,"en-US"]),...(q.I?it.map(t=>[t,"en-US"]):[]),...(q.W?q.W.flatMap(x=>[[(x.d=="A"?"Mendatar ":"Menurun ")+x.n,"id-ID"],[x.t,"en-US"]]):[]),...(q.B?[["Pilihan tempat.","id-ID"],...q.B.map(b=>[b,"en-US"])]:[])])}
+setTimeout(()=>go("cover"),1900);
+function fm(){const n=E("nm").value.trim(),k=E("kl").value.trim();E("e1").textContent=n.length<3?"Nama lengkap wajib diisi (minimal 3 huruf).":"";E("e2").textContent=k?"":"Kelas wajib diisi.";if(n.length<3||!k)return;S.n=n;S.k=k;it(0)}
+function it(i){go("intro");E("intro").innerHTML=`<div class="pan c"><h2>Selamat Datang, ${S.n}! 🌸</h2><p>Media: Ide Pokok • Teks Lisan dan Multimodal</p>${sc(PGI[i])}${ay(AY[4])}<div class="box"><h3>${PG[i][0]}</h3><p>${PG[i][1]}</p></div><div class="nav"><button class="btn2" onclick="${i?`it(${i-1})`:"go('form')"}">Kembali</button><button class="btn" onclick="${i<2?`it(${i+1})`:"mn()"}">${i<2?"Selanjutnya (Next)":"Masuk ke Menu Utama"}</button></div></div>`}
+function mn(){go("menu");const c=[["bl","📖","BELAJAR","7 slide materi",0],["bm","🎮","BERMAIN","Tebak Gambar & TTS",1],["br","📝","BERLATIH","10 soal penilaian",2],["rf","📚","REFERENSI","Sumber belajar & aset",0]];
+E("menu").innerHTML=`<div class="pan"><div class="row" style="justify-content:flex-start"><div class="av" style="width:56px;height:56px;font-size:1.4rem;margin:0">${S.n[0].toUpperCase()}</div><div><b>${S.n}</b><br>Kelas ${S.k}</div></div><h2 class="c">Menu Utama</h2><div class="grid">${c.map(x=>`<div class="mc ${S.ul<x[4]?"lk":""}" onclick="op('${x[0]}',${x[4]})"><big>${x[1]}</big>${x[2]}<br><small>${x[3]}</small><br>${S.ul<x[4]?"🔒":"🔓"}</div>`).join("")}</div></div>`}
+function op(k,n){if(S.ul<n)return mo(`<h3>🔒 Menu Terkunci</h3><p>Selesaikan menu <b>${n==1?"BELAJAR":"BERMAIN"}</b> dulu ya. Belajar dengan sabar dan bertahap adalah bagian dari cinta ilmu.</p>`,"Mengerti");
+if(k=="rf")mo(`<h3>📚 Referensi</h3><div class="box" style="text-align:left"><ol style="margin:0;padding-left:20px"><li>Buku Bahasa Inggris Erlangga</li><li>Buku mata pelajaran dari Kemendikbud</li><li>Aset gambar dan kode HTML dibuat secara otomatis oleh AI</li></ol></div>`,"Tutup");else if(k=="bl")bl(0);else if(k=="bm"){S.bs=0;S.bt=[];bm(0)}else{S.rs=[];br(0)}}
+function bl(i){S.bi=i;go("belajar");const m=MT[i],ok=S.d[i];
+E("belajar").innerHTML=`<div class="pan"><div class="top">Belajar ${i+1}/7<i style="width:${(i+1)/7*100}%"></i></div><h2>${m.t}</h2><button class="btn2 rd" onclick="rdM()">🔊 Bacakan Materi</button>${sc(IL[i])}<p>${m.b}</p><div class="box"><b>📍 Konteks Paguat, Pohuwato, Gorontalo</b><br>${m.l}</div><div class="box kbc"><b>💗 Kurikulum Berbasis Cinta</b><br>${m.c}</div>${ay(AY[m.a])}<div class="act"><button class="btn2 rd" onclick="rdQ()">🔊 Bacakan Soal</button><br><b>Tantangan: ${m.q}</b><div id="op"></div><div id="fb" class="fb"></div></div><div class="nav"><button class="btn2" onclick="${i?`bl(${i-1})`:"mn()"}">Kembali</button><button id="nx" class="btn" ${ok?"":"disabled"} onclick="nxt()">${i<6?"Selanjutnya":"Selesai"}</button></div></div>`;
+E("op").innerHTML=m.o.map((t,j)=>`<button class="op">${"ABC"[j]}. ${t}</button>`).join("");
+[...E("op").children].forEach((b,j)=>b.onclick=()=>{if(j==m.k){b.classList.add("ok");S.d[i]=1;E("nx").disabled=false;fb("✅ Benar! Kamu bisa lanjut.","g")}else{b.classList.add("no");fb("💡 Belum tepat, coba lagi ya.","r")}});if(ok)fb("✅ Slide ini sudah selesai.","g")}
+function nxt(){if(S.bi<6)return bl(S.bi+1);S.ul=Math.max(S.ul,1);mn();mo("<h3>🎉 Belajar selesai!</h3><p>Menu BERMAIN 🔓 sudah terbuka.</p>","Lanjut")}
+function bm(g){S.g=g;go("bermain");const q=BM[g];E("bermain").innerHTML=`<div class="pan"><div class="top">Tantangan ${g+1}/10 • ${TP[q.k]}<i style="width:${(g+1)*10}%"></i></div><button class="btn2 rd" onclick="rdS(BM[${g}])">🔊 Bacakan Bacaan & Soal</button><div class="stim">${q.s}</div><h3>${q.q}</h3><div id="ar"></div><div id="fb" class="fb"></div><div class="nav"><span></span><button id="ck" class="btn" onclick="ck()">Periksa</button></div></div>`;eng(E("ar"),q)}
+function ck(){const q=BM[S.g],r=S.ok();if(r==null)return fb("⚠️ Lengkapi jawabanmu dulu ya.","w");S.bt[S.g]=r;if(r)S.bs++;fb((r?"✅ Hebat! ":"💡 Belum tepat. ")+q.e,r?"g":"r");S.mk&&S.mk();E("ar").style.pointerEvents="none";const b=E("ck");b.textContent=S.g<9?"Lanjut":"Lihat Hasil";b.onclick=()=>S.g<9?bm(S.g+1):bh()}
+function bh(){S.ul=Math.max(S.ul,2);const s=S.bs*10;E("bermain").innerHTML=`<div class="pan c"><h2>🎉 Selesai, ${S.n}!</h2><p>Skor: <b>${s}</b>/100 • Akurasi: <b>${s}%</b> (${S.bs} dari 10 benar)</p><p>Menu BERLATIH 🔓 sudah terbuka!</p><button class="btn" onclick="mn()">Ke Menu Utama</button></div>`}
+function br(i){S.bi=i;go("berlatih");const q=BR[i];E("berlatih").innerHTML=`<div class="pan"><div class="top">Soal ${i+1}/10<i style="width:${(i+1)*10}%"></i></div><span class="bdg">Level ${q.l} • ${LV[q.l]} • ${q.w} poin</span><br><button class="btn2 rd" onclick="rdS(BR[${i}])">🔊 Bacakan Bacaan & Soal</button>${sc(BRI[i])}<div class="stim" style="margin-top:8px">${q.s}</div><h3>${q.q}</h3><div id="ar"></div><div id="fb" class="fb"></div><div class="nav"><span></span><button class="btn" onclick="nbr()">${i<9?"Simpan & Lanjut":"Selesai"}</button></div></div>`;eng(E("ar"),q)}
+function nbr(){const r=S.ok();if(r==null)return fb("⚠️ Pilih jawabanmu dulu ya.","w");S.rs[S.bi]=r;if(S.bi<9)br(S.bi+1);else{rp();go("laporan")}}
+function eng(box,q){const sh=a=>a.map((v,i)=>i).sort(()=>Math.random()-.5);S.mk=null;
+if(q.k=="mc"||q.k=="multi"){const mu=q.k=="multi",A=[].concat(q.a);box.innerHTML=q.o.map((t,i)=>`<button class="op">${mu?"":"ABCD"[i]+". "}${t}</button>`).join("");const B=[...box.children];
+B.forEach(b=>b.onclick=()=>{if(!mu)B.forEach(x=>x.classList.remove("sel"));b.classList.toggle("sel",mu?!b.classList.contains("sel"):true)});
+S.ok=()=>{const g=B.map((b,i)=>b.classList.contains("sel")?i:-1).filter(x=>x>=0);return g.length?g.join()==A.join():null}}
+else if(q.k=="order"){let sq=[];const pl=sh(q.I),d=()=>{box.innerHTML='<div class="bk">'+(sq.length?sq.map((v,j)=>`<button class="chip sel" data-j="${j}">${j+1}. ${q.I[v]}</button>`).join(""):"<small>Ketuk kartu di bawah sesuai urutan</small>")+"</div><div>"+pl.filter(v=>!sq.includes(v)).map(v=>`<button class="chip" data-v="${v}">${q.I[v]}</button>`).join("")+"</div>";
+box.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{sq.splice(+b.dataset.j,1);d()});box.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{sq.push(+b.dataset.v);d()})};d();
+S.ok=()=>sq.length<q.I.length?null:sq.every((v,i)=>v==i)}
+else if(q.k=="pic"){const L=(q.w+q.x).split(""),od=sh(L),n=q.w.length;let sl=Array(n).fill(-1);
+const d=()=>{box.innerHTML='<div style="text-align:center"><span class="bn" style="display:inline-block;font-size:4.2rem;line-height:1.2">'+q.p+'</span></div><div class="bk c">'+sl.map((v,i)=>`<button class="chip sel" data-s="${i}" style="min-width:42px;text-align:center">${v<0?"_":L[v]}</button>`).join("")+'</div><div class="c">'+od.filter(i=>!sl.includes(i)).map(i=>`<button class="chip" data-l="${i}" style="min-width:42px;text-align:center;font-size:1.2rem">${L[i]}</button>`).join("")+"</div>";
+box.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{const k=sl.indexOf(-1);if(k>=0){sl[k]=+b.dataset.l;d()}});
+box.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{sl[+b.dataset.s]=-1;d()})};d();
+S.ok=()=>sl.includes(-1)?null:sl.map(i=>L[i]).join("")==q.w}
+else if(q.k=="cw"){const M={},st={},NM={};let nn=0;q.W.forEach(x=>{for(let i=0;i<x.w.length;i++)M[(x.r+(x.d=="D"?i:0))+","+(x.c+(x.d=="A"?i:0))]=x.w[i];st[x.r+","+x.c]=1});
+Object.keys(st).map(k=>k.split(",").map(Number)).sort((a,b)=>a[0]-b[0]||a[1]-b[1]).forEach(([r,c])=>NM[r+","+c]=++nn);q.W.forEach(x=>x.n=NM[x.r+","+x.c]);
+const K=Object.keys(M).map(k=>k.split(",").map(Number)),r0=Math.min(...K.map(k=>k[0])),r1=Math.max(...K.map(k=>k[0])),c0=Math.min(...K.map(k=>k[1])),c1=Math.max(...K.map(k=>k[1]));
+let g="";for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const k=r+","+c;g+=M[k]?`<div class="cc"><sup>${NM[k]||""}</sup><input maxlength="1" data-k="${k}" autocomplete="off" autocapitalize="characters"></div>`:"<div></div>"}
+const lc=d=>q.W.filter(x=>x.d==d).sort((a,b)=>a.n-b.n).map(x=>`<li value="${x.n}">${x.t}</li>`).join("");
+box.innerHTML=`<div style="overflow-x:auto"><div class="cg" style="grid-template-columns:repeat(${c1-c0+1},36px)">${g}</div></div><p><b>Bank kata:</b> ${q.W.map(x=>x.w).sort().join(" • ")}</p><b>Mendatar ➡️</b><ol>${lc("A")}</ol><b>Menurun ⬇️</b><ol>${lc("D")}</ol>`;
+const I=[...box.querySelectorAll("input")];
+I.forEach(i=>i.oninput=()=>{i.value=i.value.replace(/[^a-zA-Z]/g,"").toUpperCase().slice(-1);if(!i.value)return;const[r,c]=i.dataset.k.split(",").map(Number),n=I.find(x=>x.dataset.k==r+","+(c+1))||I.find(x=>x.dataset.k==(r+1)+","+c);n&&n.focus()});
+S.ok=()=>I.some(i=>!i.value)?null:I.every(i=>i.value==M[i.dataset.k]);
+S.mk=()=>I.forEach(i=>i.style.background=i.value==M[i.dataset.k]?"#dcf7ea":"#fde2e2")}
+else{const n=q.I.length,u=q.k=="match";let as=Array(n).fill(-1),sl=-1;
+const d=()=>{box.innerHTML='<div class="bk">'+q.I.map((t,i)=>as[i]<0?`<button class="chip${sl==i?" sel":""}" draggable="true" data-i="${i}">${t}</button>`:"").join("")+"</div>"+q.B.map((t,b)=>`<div class="bk" data-b="${b}"><b>${t}</b><br>`+q.I.map((x,i)=>as[i]==b?`<button class="chip sel" data-r="${i}">${x}</button>`:"").join("")+"</div>").join("");
+box.querySelectorAll("[data-i]").forEach(c=>{c.onclick=()=>{sl=+c.dataset.i;d()};c.ondragstart=e=>{sl=+c.dataset.i;e.dataTransfer.setData("text","x")}});
+box.querySelectorAll("[data-r]").forEach(c=>c.onclick=e=>{e.stopPropagation();as[+c.dataset.r]=-1;d()});
+box.querySelectorAll("[data-b]").forEach(k=>{const put=()=>{if(sl<0)return;const b=+k.dataset.b;if(u)as=as.map(v=>v==b?-1:v);as[sl]=b;sl=-1;d()};k.onclick=put;k.ondragover=e=>e.preventDefault();k.ondrop=e=>{e.preventDefault();put()}})};d();
+S.ok=()=>as.includes(-1)?null:as.every((v,i)=>v==q.A[i])}}
+
+// ==========================================
+// PENGIRIMAN DATA KE GOOGLE APPS SCRIPT
+// ==========================================
+function sendDataToGAS() {
+  if (GAS_URL === "URL_GAS_ANDA_DISINI") {
+    console.warn("GAS_URL belum diatur. Data tidak dikirim ke spreadsheet.");
+    return;
+  }
+
+  // 1. Ekstrak data soal dari menu Bermain & Berlatih untuk Sheet "Data Soal"
+  const soalList = [];
+  BM.forEach((q, i) => {
+    soalList.push({ tipe: "Bermain", nomor: i + 1, pertanyaan: q.s || q.q || "Gambar/TTS", jawaban: q.e || "Lihat Kunci" });
+  });
+  BR.forEach((q, i) => {
+    soalList.push({ tipe: "Berlatih", nomor: i + 1, pertanyaan: q.s, jawaban: q.e });
+  });
+
+  // 2. Kalkulasi statistik untuk Sheet "Hasil"
+  const benarBermain = S.bs; 
+  const benarBerlatih = S.rs.filter(x => x).length;
+  const totalBenar = benarBermain + benarBerlatih;
+  const totalSalah = 20 - totalBenar; // Total soal 10 (BM) + 10 (BR) = 20
+
+  const detailBermain = BM.map((q, i) => `Soal ${i+1}: ${S.bt[i] ? 'Benar' : 'Salah'}`).join(" | ");
+  const detailBerlatih = BR.map((q, i) => `Soal ${i+1}: ${S.rs[i] ? 'Benar' : 'Salah'}`).join(" | ");
+
+  const payload = {
+    nama: S.n,
+    kelas: S.k,
+    benar: totalBenar,
+    salah: totalSalah,
+    detailBermain: detailBermain,
+    detailBerlatih: detailBerlatih,
+    soal: soalList
+  };
+
+  // 3. Kirim ke Backend
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors', // Penting untuk melewati kebijakan CORS dari browser ke GAS
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    console.log("Data sedang dikirim ke Google Sheets.");
+  }).catch(err => {
+    console.error("Gagal mengirim data:", err);
+  });
+}
+
+function rp(){
+  // Panggil fungsi kirim data ke GAS tepat saat siswa melihat laporan
+  sendDataToGAS();
+
+  const t=BR.reduce((a,q,i)=>a+(S.rs[i]?q.w:0),0),lv=[1,2,3].map(l=>{const m=BR.filter(q=>q.l==l),mx=m.reduce((a,q)=>a+q.w,0),g=m.reduce((a,q)=>a+(S.rs[BR.indexOf(q)]?q.w:0),0);return Math.round(g/mx*100)}),
+  P=t>=90?"Sangat Baik":t>=75?"Baik":t>=60?"Cukup":"Perlu Bimbingan",bs=S.bs*10,tg=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+  E("laporan").innerHTML=`<div class="pan" id="rep"><div class="c"><h2>Laporan Hasil Belajar</h2><b>MPI Ide Pokok • Teks Lisan dan Multimodal</b><br>Bahasa Inggris • Kelas IV / Fase B • MI<br><small>Pengembang: Mardawati, S.S • MIS Al-Khairaat Paguat</small></div><hr>
+<table><tr><th>Nama Siswa</th><td>${S.n}</td></tr><tr><th>Kelas</th><td>${S.k}</td></tr><tr><th>Tanggal</th><td>${tg}</td></tr><tr><th>Bermain</th><td>Skor ${bs}/100 • Akurasi ${bs}% (${S.bs}/10 benar)</td></tr><tr><th>Berlatih</th><td><b>Nilai Akhir ${t}</b> • Predikat: <b>${P}</b></td></tr><tr><th>Penguasaan</th><td>Level 1 Dasar: ${lv[0]}% • Level 2 Sedang: ${lv[1]}% • Level 3 HOTS: ${lv[2]}%</td></tr></table>
+<h3>Pembahasan Berlatih</h3><table>${BR.map((q,i)=>`<tr><td>${i+1}</td><td>${S.rs[i]?"✔":"✖"}</td><td>${q.e}</td></tr>`).join("")}</table>
+<div class="box kbc"><b>💗 Catatan Kurikulum Berbasis Cinta:</b> ${S.n} telah berlatih menyimak dengan adab, menghargai teman, dan mencintai ilmu serta alam ciptaan Allah.</div>
+<div class="box"><b>Rekomendasi Guru:</b> ${lv[2]<60?"Perbanyak latihan menalar (HOTS) dengan menyimak pengumuman dan poster di sekitar madrasah.":"Pertahankan semangat belajar dan tantang diri dengan teks lisan yang lebih panjang."}</div></div>
+<div class="row np" style="margin-top:14px"><button class="btn" onclick="pdf()">Unduh / Cetak Laporan PDF</button><button class="btn2" onclick="mn()">Menu Utama</button></div>`}
+function pdf(){if(window.html2pdf)html2pdf().set({margin:8,filename:"Laporan-MPI-"+S.n+".pdf",html2canvas:{scale:2},jsPDF:{format:"a4"}}).from(E("rep")).save();else print()}
+</script></body></html>
